@@ -25,24 +25,24 @@ module Bigcommerce
       @configuration[:api_key] = api_key
     end
 
-    def verify_peer=(verify)
+    def verify_ssl=(verify)
       @configuration[:verify_ssl] = verify
     end
 
     def ssl_ca_file=(path)
-      @configuration.ssl_ca_file = path
+      @configuration[:ssl_ca_file] = path
     end
 
     def ssl_client_key=(path,passphrase=nil)
       if passphrase.nil?
-        @configuration.ssl_client_key = OpenSSL::PKey::RSA.new(File.read(path))
+        @configuration[:ssl_client_key] = OpenSSL::PKey::RSA.new(File.read(path))
       else
-        @configuration.ssl_client_key = OpenSSL::PKey::RSA.new(File.read(path), passphrase)
+        @configuration[:ssl_client_key] = OpenSSL::PKey::RSA.new(File.read(path), passphrase)
       end
     end
 
     def ssl_client_cert=(path)
-      @configuration.client_cert = OpenSSL::X509::Certificate.new(File.read(path))
+      @configuration[:ssl_client_cert] = OpenSSL::X509::Certificate.new(File.read(path))
     end
 
     def get(path, options = {}, headers = {})
@@ -94,6 +94,5 @@ module Bigcommerce
         raise "Failed to parse Bigcommerce response: #{e}"
       end
     end
- 
   end
 end
